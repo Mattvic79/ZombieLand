@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <title>ZombieLand</title>
+    <style>
+#zombie_map {
+    height: 100%;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    background-color: grey;
+}
+</style>
+  </head>
+  <body>
+    My Stuff
+    <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBaM7U-ggpnUWeL7IWGl4AkUId4NLlwR1k&callback=initMap">
+</script>
+My zombie map
+<div id="zombie_map"></div>
+<script>
+    var zombie_map;
+    var all_markers = [];
+    var data = `52.691491 -1.992413 zombie.png
+    52.691317 -1.992072 weapons.png 
+    52.691350 -1.991061 hospital.png`;
+    var markers = data.split("\n");
+    function initMap() {
+    
+            zombie_map = new google.maps.Map(document.getElementById('zombie_map'), {
+            					zoom: 17,
+            					center: {lat: 52.691383, lng: -1.990825}
+             						});
+       	    
+					if(navigator.geolocation) {
+    								navigator.geolocation.watchPosition(set_my_position);
+									}	
+									else {
+    								alert("Geolocation doesn't work in your browser");
+									}       	    
+       	    
+       	    
+       	    
+       	    
+       	    
+       	    for (var i=0; i < data.length;i++)
+       	    {
+       	      var marker_data = markers[i].trim();
+       	      marker_data = marker_data.split(" ");
+       	    
+       	      var latitude = marker_data[0];
+					var longitude = marker_data[1];
+					var emoji = marker_data[2];
+       	            	   
+       	   	var marker_position = new google.maps.LatLng(latitude, longitude);
+       	   	var marker = new google.maps.Marker({
+		  					position: marker_position,
+		  					map: zombie_map,
+		  					icon: emoji
+							}); 
+            	all_markers.push(marker);
+
+       	    }
+       	    
+       
+    		}
+    		
+    		function set_my_position(position){
+    		var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    		var player = new google.maps.Marker({
+		  					position: pos,
+		  					map: zombie_map,
+		  					icon: player.png
+							}); 
+							all_markers.push(player);
+    		
+    		}
+    
+</script>
+
+
+  </body>
+</html>
